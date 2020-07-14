@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Bursdagsbarn{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+<table class="table table-striped table-bordered">
+   <thead>
+      <tr>
+         <th>Navn</th>
+         <th>Fødselsdato</th>
+      </tr>
+   </thead>
+
+   <tbody>
+      {% for person in personList %}
+      <tr>
+         <td>{{ person['givenName'] + " " + person['surname']}}</td>
+         <td>{{ person['birthdate'] }}</td>
+      </tr>
+      {% endfor %}
+   </tbody>
+</table>
+
+{% endblock %}
