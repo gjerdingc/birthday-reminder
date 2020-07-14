@@ -9,14 +9,14 @@ from flask import render_template
 app = Flask(__name__)
 
 db = TinyDB('birthdays.db')
-people = db.all()
 
 class Person:
     def __init__(self, givenName, surname, birthdate):
 
-       givenName = self.givenName
-       surname = self.surname
-       birthdate = self.birthdate
+       self.givenName = givenName
+       self.surname = surname
+       self.birthdate = birthdate
+       daysuntil = 0
 
 
 @app.route('/')
@@ -24,12 +24,28 @@ def home():
    personList = []
 
    for i in db.all():
-      person = Person(i['givenName'], i['surname'], i['birthdate'])
+      bdayObject = datetime.strptime(i['birthdate'], '%d%m%y')
+      bdayformatted = bdayObject.strftime("%d %b %Y")
+
+      person = Person(i['givenName'], i['surName'], bdayformatted)
+      person.daysuntil = daysUntilBday(bdayObject)
 
       personList.append(person)
 
 
    return render_template('index.html', personList = personList)
+
+   
+
+def daysUntilBday(birthdate):
+   birthdate = datetime(datetime.now().year, birthdate.month, birthdate.day)
+   daysuntil = birthdate - datetime.now()
+   daysuntil = daysuntil.days
+
+   if daysuntil < 0:
+      daysuntil = daysuntil + 365
+   
+   return daysuntil
 
 
 
