@@ -12,6 +12,7 @@
       <tr>
          <th>Navn</th>
          <th>Fødselsdato</th>
+         <th>Dager til neste bursdag</th>
       </tr>
    </thead>
 
@@ -20,6 +21,7 @@
       <tr>
          <td>{{ person['givenName'] + " " + person['surname']}}</td>
          <td>{{ person['birthdate'] }}</td>
+         <td>{{ person['daysuntil'] }}</td>
       </tr>
       {% endfor %}
    </tbody>

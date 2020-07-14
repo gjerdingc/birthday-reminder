@@ -16,6 +16,7 @@ class Person:
        self.givenName = givenName
        self.surname = surname
        self.birthdate = birthdate
+       daysuntil = 0
 
 
 @app.route('/')
@@ -27,11 +28,24 @@ def home():
       bdayformatted = bdayObject.strftime("%d %b %Y")
 
       person = Person(i['givenName'], i['surName'], bdayformatted)
+      person.daysuntil = daysUntilBday(bdayObject)
 
       personList.append(person)
 
 
    return render_template('index.html', personList = personList)
+
+   
+
+def daysUntilBday(birthdate):
+   birthdate = datetime(datetime.now().year, birthdate.month, birthdate.day)
+   daysuntil = birthdate - datetime.now()
+   daysuntil = daysuntil.days
+
+   if daysuntil < 0:
+      daysuntil = daysuntil + 365
+   
+   return daysuntil
 
 
 
